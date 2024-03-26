@@ -1,12 +1,35 @@
 version: '3.8'
 services:
   laravel_app:
+    build:
+      context: ./php
     image: php:8.2-fpm-alpine
     container_name: laravel_app
     working_dir: /var/www
     volumes:
       - ../src:/var/www
       - ./laravel/php.ini:/usr/local/etc/php/php.ini
+    networks:
+      - elk_network
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laraveluser
+      MYSQL_PASSWORD: laravelpassword
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - elk_network
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
     networks:
       - elk_network
 
@@ -56,6 +79,7 @@ services:
 
 volumes:
   elasticsearch_data:
+  mysql_data:
 
 networks:
   elk_network:
