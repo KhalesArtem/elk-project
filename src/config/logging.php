@@ -57,6 +57,13 @@ return [
             'channels' => explode(',', env('LOG_STACK', 'single')),
             'ignore_exceptions' => false,
         ],
+        'elasticsearch' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/laravel.log'),
+            'level' => 'debug',
+            'days' => 14,
+            'formatter' => Monolog\Formatter\JsonFormatter::class,
+        ],
 
         'single' => [
             'driver' => 'single',
