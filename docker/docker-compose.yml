@@ -61,6 +61,7 @@ services:
     image: docker.elastic.co/logstash/logstash:7.9.2
     volumes:
       - ./elk/logstash/pipeline:/usr/share/logstash/pipeline
+      - ../src/storage/logs:/usr/share/logstash/logs
     ports:
       - "5001:5000"
     depends_on:
